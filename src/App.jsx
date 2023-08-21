@@ -5,44 +5,45 @@ import About from './components/About'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import TextForm from './components/TextForm'
-import ColorPlate from './components/ColorPlate'
 import ThemeSwitcher from './components/ThemeSwitcher'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 
+
+const randomColor = ()=> {
+      const colors = ['primary', 'secondary', 'success' ,'danger', 'warning', 'info']
+      const randomNumber = Math.floor(Math.random() * colors.length)
+
+      return colors[randomNumber]
+}
+
+
+
+
 function App() {
+
       const [mode, setMode] = useState('dark')
       const [invert, setInvert] = useState('light')
-  // const [alert, setAlert] = useState(null)
-      const [clrPlate, setClrPlate] = useState('warning')
+      const [clrPlate, setClrPlate] = useState(randomColor)
 
-      const toggleClr = (colorData) => {
-            setClrPlate(colorData);
+      const toggleClr = () => {
+            setClrPlate(randomColor)
       }
+      
 
-  // const showAlert = (message, type, clrType) => {
-  //     setAlert({
-  //         message: message,
-  //         type: type,
-  //         clrType: clrType
-  //     })
-  //     setTimeout( e => {
-  //         setAlert(null)
-  //     }, 1500);
-  // }
 
-      const toggleMode = e => {
+      const toggleMode = () => {
             if(mode === 'dark' && invert === 'light'){
-            setMode('light')
-            setInvert('dark')
-            // showAlert('disabled', 'dark mode', 'danger')
+                  setMode('light')
+                  setInvert('dark')
             } else {
-            setMode('dark')
-            setInvert('light')
-            // showAlert('enabled', 'dark mode', 'success')
+                  setMode('dark') 
+                  setInvert('light')
+
             }
       }
+
 
       const navData = {
             navLogo: "SouravUL",
@@ -53,19 +54,13 @@ function App() {
 
 return (
       <Router>
+
             <Navigation 
                   clrPlate={clrPlate} 
                   navData={navData} 
                   mode={mode} 
                   invert={invert}
             />
-            <ColorPlate 
-                  clrPlate={clrPlate} 
-                  toggleClr={toggleClr} 
-                  mode={mode} 
-                  invert={invert}
-            />
-              {/* <Alert alert={alert} /> */}
             <Routes>
                   <Route exact path='*' element={
                         <Home 
@@ -91,19 +86,21 @@ return (
                               mode={mode} 
                               invert={invert} 
                               />}></Route>
-                  </Routes>
-                  <ThemeSwitcher 
-                        clrPlate={clrPlate} 
-                        mode={mode} 
-                        invert={invert} 
-                        toggleMode={toggleMode}
-                  />
-                  <Footer 
-                        clrPlate={clrPlate} 
-                        mode={mode} 
-                        invert={invert} 
-                        navData={navData}
-                  />
+            </Routes>
+            <ThemeSwitcher 
+                  clrPlate={clrPlate} 
+                  mode={mode} 
+                  invert={invert} 
+                  toggleMode={toggleMode}
+                  toggleClr={toggleClr} 
+            />
+            <Footer 
+                  clrPlate={clrPlate} 
+                  mode={mode} 
+                  invert={invert} 
+                  navData={navData}
+            />
+            
       </Router>
 )
 }
